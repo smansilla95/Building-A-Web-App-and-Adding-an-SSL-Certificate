@@ -1,4 +1,4 @@
-<h1>Building A Webb App and Adding an SSL Certificate</h1>
+<h1>Building A Web App and Adding an SSL Certificate</h1>
 
  ### [YouTube Demonstration](https://youtu.be/7eJexJVCqJo)
 
