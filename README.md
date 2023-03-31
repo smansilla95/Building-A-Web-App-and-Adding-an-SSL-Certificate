@@ -19,7 +19,8 @@ Creating Resource Group: <br/>
 
 Enter Azure portal and go to home screen, then select the <b>+ Create</b> button on the <b>Create resource group</b> section. Name resource group and choose its region, which is supposed to have low latency and high availability. After reviewing and creating, finalize settings to create the group. Navigate to resource group to check that all settings are correct.
 
-<img src="https://imgur.com/a/a8BSGSc" height="80%" width="80%" alt="Creating a Resource Group"/>
+<p align="center"><br/>
+<img src="https://i.imgur.com/kpxnIit.png" height="80%" width="80%" alt="Creating a Resource Group"/>
 <br />
 <p align="center">
 Setting up Virtual Network: <br/>
