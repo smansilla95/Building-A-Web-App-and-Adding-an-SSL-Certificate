@@ -17,13 +17,20 @@ Project consisted of setting up a domain through GoDaddy and then creating a web
 <p align="center">
 Creating Resource Group: <br/>
 
-Enter Azure portal and go to home screen, then select the <b>+ Create</b> button on the <b>Create resource group</b> section. Name resource group and choose its region, which is supposed to have low latency and high availability. After reviewing and creating, finalize settings to create the group. Navigate to resource group to check that all settings are correct.
+Enter the Azure portal and go to the home screen, then select the <b>+ Create</b> button on the <b>Resource group</b> section. Name the resource group and choose its region, which is supposed to have low latency and high availability. After reviewing and creating, finalize settings to create the group. Navigate to the resource group to check that all settings are correct. In this case, the resource group was named Red-Team and the selected region was Central US.
 
 <p align="center"><br/>
-<img src="https://i.imgur.com/kpxnIit.png" height="80%" width="80%" alt="Creating a Resource Group"/>
+<img src="https://i.imgur.com/kpxnIit.png" height="60%" width="60%" alt="Creating a Resource Group"/>
 <br />
 <p align="center">
+<p align="center"><br/>
+<img src="https://i.imgur.com/58URVmI.png" height="60%" width="60%" alt="Creating a Resource Group"/>
+<br />
+<p align="center"><br/>
+
+<p align="center">
 Setting up Virtual Network: <br/>
+
 
 Search for "net" in the home screen and choose the search result for <b>Virtual Networks</b>. After clicking <b>Create virtual network</b> at the bottom of the page, fill in the network settings. These consist of this subscription, resource group created before, the name of the VNet, and region, which is supposed to match the one used for the resource group. Additionally, a default network and subnet must be used to set up IP Addresses, default security settings, and tags. Check on the resource group and make sure the VNet 
 
