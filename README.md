@@ -49,7 +49,16 @@ Look for "web" once more in the home page, and then select the option to create 
 <p align="center">
 Set up Inbound Rules for the Network Security Group: <br/>
 
+After creating the security group, click on it to begin its configuration. Choose the Inbound security rules button and then click on the +Add button in order to add a new rule. The new rule should: block all traffic sources, have a wildcard to match all source ports, block all destinations, a custom service, a wildcard for destination port ranges so that it will block all destination ports, block all protocols, a block action that will stop any traffic that matches this rule, the highest priority number (in this case 4,096), and a name (in this case Default-Deny). Afterward, a description will be needed to finish setting up the rule, in this case it will "Deny all inbound traffic," after which the rule can be saved. Once saved, double check on the RedTeamSG security grup to see all rules and that the configurations set for the Default-Deny rule are accurate.
+ 
+<p align="center"><br/>
+<img src="https://i.imgur.com/ZoRz22c.png" height="60%" width="60%" alt="Creating a Resource Group"/>
+ 
+<p align="center"><br/>
+<img src="https://i.imgur.com/qKz4foW.png" height="60%" width="60%" alt="Creating a Resource Group"/>
 
+<p align="center">
+Setting Up the Virtual Machines: <br/>
 
 
 
