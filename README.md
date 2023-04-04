@@ -27,16 +27,16 @@ Enter the Azure portal and go to the home screen, then select the <b>+ Create</b
 <p align="center">
 Setting up the Virtual Network: <br/>
 
-Search for "net" in the home screen and choose the search result for <b>Virtual Networks</b>. After clicking <b>Create virtual network</b> at the bottom of the page, fill in the network settings. These consist of this subscription, resource group created before, the name of the VNet, and region, which is supposed to match the one used for the resource group. Additionally, a default network and subnet must be used to set up IP Addresses, default security settings, and tags. Under the review section, double check that everything lines up and finish creating the VNet.
+Search for "net" in the home screen and choose the search result for <b>Virtual Networks</b>. After clicking <b>Create virtual network</b> at the bottom of the page, fill in the network settings. These consist of this subscription, resource group created before, the name of the VNet (RedNet), and region, which is supposed to match the one used for the resource group. Additionally, a default network and subnet must be used to set up IP Addresses, default security settings, and tags. Under the review section, double check that everything lines up and finish creating the VNet.
  
 <p align="center"><br/>
-<img src="https://i.imgur.com/PD4SqbA.png" height="60%" width="60%" alt="Creating a Resource Group"/>
+<img src="https://i.imgur.com/PD4SqbA.png" height="60%" width="60%" alt="Setting up the VNet"/>
 <p align="center"><br/>
-<img src="https://i.imgur.com/q1RatIw.png" height="60%" width="60%" alt="Creating a Resource Group"/>
+<img src="https://i.imgur.com/q1RatIw.png" height="60%" width="60%" alt="Setting up the VNet"/>
 <p align="center"><br/>
-<img src="https://i.imgur.com/DSLjiXP.png" height="60%" width="60%" alt="Creating a Resource Group"/>
+<img src="https://i.imgur.com/DSLjiXP.png" height="60%" width="60%" alt="Setting up the VNet"/>
 <p align="center"><br/>
-<img src="https://i.imgur.com/selVXC8.png" height="60%" width="60%" alt="Creating a Resource Group"/>
+<img src="https://i.imgur.com/selVXC8.png" height="60%" width="60%" alt="Setting up the VNet"/>
 
 <p align="center">
 Setting up the Network Security Group: <br/>
@@ -44,7 +44,7 @@ Setting up the Network Security Group: <br/>
 Look for "web" once more in the home page, and then select the option to create a network security group. Assign a name to the network security group, in this case RedTeam-SG, and add it to the resource group created before. Double-check that the security group is set up in the same region as the resource group and the virtual network that were set up in previous steps.
  
 <p align="center"><br/>
-<img src="https://i.imgur.com/byvq9oB.png" height="60%" width="60%" alt="Creating a Resource Group"/>
+<img src="https://i.imgur.com/byvq9oB.png" height="60%" width="60%" alt="Setting up the Network Security Group"/>
  
 <p align="center">
 Set up Inbound Rules for the Network Security Group: <br/>
@@ -52,16 +52,49 @@ Set up Inbound Rules for the Network Security Group: <br/>
 After creating the security group, click on it to begin its configuration. Choose the Inbound security rules button and then click on the +Add button in order to add a new rule. The new rule should: block all traffic sources, have a wildcard to match all source ports, block all destinations, a custom service, a wildcard for destination port ranges so that it will block all destination ports, block all protocols, a block action that will stop any traffic that matches this rule, the highest priority number (in this case 4,096), and a name (in this case Default-Deny). Afterward, a description will be needed to finish setting up the rule, in this case it will "Deny all inbound traffic," after which the rule can be saved. Once saved, double check on the RedTeamSG security grup to see all rules and that the configurations set for the Default-Deny rule are accurate.
  
 <p align="center"><br/>
-<img src="https://i.imgur.com/ZoRz22c.png" height="60%" width="60%" alt="Creating a Resource Group"/>
+<img src="https://i.imgur.com/ZoRz22c.png" height="60%" width="60%" alt="Set up Inbound Rules for the Network Security Group"/>
  
 <p align="center"><br/>
-<img src="https://i.imgur.com/qKz4foW.png" height="60%" width="60%" alt="Creating a Resource Group"/>
+<img src="https://i.imgur.com/qKz4foW.png" height="60%" width="60%" alt="Set up Inbound Rules for the Network Security Group"/>
 
 <p align="center">
-Setting Up the Virtual Machines: <br/>
+Setting Up a Jumpbox Virtual Machine: <br/>
 
+Begin by creating an SSH key pair using Terminal. Run the command ssh-keygen and after verifying the output looks correct, run the command cat ~/.ssh/id_rsa.pub. Copy the output of that command, which is the SSH key string, and keep in your clipboard for later. After the key pair is generated, return to Azure and search for "virtual machines" in the search bar. Click on +Add to begin creating the VM. This VM requires these settings: 
+ 
+<p align="left">
+Basics: <br/>
+ 
+ - <b>Resource Group: The same as the one used for Red Team, in this case Red-Team.</b>
+ - <b>Virtual Machine Name: This VM will be called Jump Box Provisioner.</b>
+ - <b>Region: Try to match the VM region to the one used for the resource and security groups (in this case Central US), but if it is unavailable, then create a new resource and security group that will match the one used to create the VM.</b>
+ - <b>Availability Options: This VM will continue to use the default settings for availability.</b>
+ - <b>Image: The Ubuntu Server 18.04 option will be used for this VM.</b>
+ - <b>Size: This VM will use Standard-B1s, 1 CPU, and 1 RAM.</b>
+ - <b>SSH: The authentication type will be an SSH Public Key, the username will be RedAdmin, and in the "SSH Public Key" field, paste the SSH key that was created before and copied to the clipboard.</b>
+ - <b>Public Inbound Ports: Leave the default setting provided, since it will be overwritten by choosing the security group created earlier.</b>
+ - <b>Select Inbound Ports: Like the previous selection, leave the default setting, as it will be overwritten by the security group rules.</b>
 
+<p align="left">
+Networking: <br/>
+ 
+ - <b>Virtual Network: The VNet created for Red Team, in this case RedNet.</b>
+ - <b>Subnet: The subnet that was created earlier, RedNetBase, will be used here.</b>
+ - <b>Public IP: The default setting for this selection will be used.</b>
+ - <b>NIC Network Security Group: The Advanced option will be used here, since it will allow for a specification of a custom security group.</b>
+ - <b>Configure Network Security Group: RedTeamSG, which was created earlier, will be used here.</b>
+ - <b>Accelerated Networking: Select "off" for this setting.</b>
+ - <b>Load Balancing: Click "No" for this setting, which should be the default.</b>
+ 
+<p align="center"><br/>
+<img src="https://i.imgur.com/GmKGnAB.png" height="60%" width="60%" alt="Setting Up a Jumpbox Virtual Machine"/>
+ 
+<p align="center"><br/>
+<img src="https://i.imgur.com/O8osUDz.png" height="60%" width="60%" alt="Setting Up a Jumpbox Virtual Machine"/>
+ 
 
+ 
+ 
 
 </p>
 
