@@ -102,11 +102,38 @@ Networking: <br/>
  
 <p align="center"><br/>
 <img src="https://i.imgur.com/O8osUDz.png" height="60%" width="60%" alt="Setting Up a Jumpbox Virtual Machine"/>
- 
 
- 
- 
+<p align="center">
+Setting Up Two Web-Access Virtual Machines: <br/>
 
+Two VMs will need to be created for web access in the network. After going to the virtual machines tab in Azure, select +Add in order to create the two web VMS. They need to have these settings:
+
+<p align="left">
+Basics: <br/>
+ 
+ - <b>Resource Group: The same as the one used for Red Team, in this case Red-Team.</b>
+ - <b>Virtual Machine Name: These VMS will be called Web-1 and Web-2.</b>
+ - <b>Region: Try to match the VM region to the one used for the resource and security groups (in this case Central US), but if it is unavailable, then create a new resource and security group that will match the one used to create the two VMs.</b>
+ - <b>Availability Options: Select "Availabilty Set" and then choose "Create New". It will be called RedTeamAS and have 2 Fault Domains and 5 Update Domains. After creating it for the first web VM, make sure to choose the same availability set for the second web VM.</b>
+ - <b>Image: The Ubuntu Server 18.04 option will be used for these VMs.</b>
+ - <b>Size: These VMs will use Standard-B1s, 1 CPU, and 2 RAM.</b>
+ - <b>SSH: The authentication type will be an SSH Public Key, the username will be RedAdmin, and in the "SSH Public Key" field, paste the SSH key that was created before and copied to the clipboard when creating the Jumpbox VM.</b>
+ - <b>Public Inbound Ports: Leave the default setting provided, since it will be overwritten by choosing the security group created earlier.</b>
+ - <b>Select Inbound Ports: Like the previous selection, leave the default setting, as it will be overwritten by the security group rules.</b>
+ 
+<p align="left">
+Networking: <br/>
+ 
+ - <b>Virtual Network: The VNet created for Red Team, in this case RedNet.</b>
+ - <b>Subnet: The subnet that was created earlier, RedNetBase, will be used here.</b>
+ - <b>Public IP: The default setting for this selection will be used.</b>
+ - <b>NIC Network Security Group: The Advanced option will be used here, since it will allow for a specification of a custom security group.</b>
+ - <b>Configure Network Security Group: RedTeamSG, which was created earlier, will be used here.</b>
+ - <b>Accelerated Networking: Select "off" for this setting.</b>
+ - <b>Load Balancing: Click "No" for this setting, which should be the default.</b>
+ 
+ 
+ 
 </p>
 
 <!--
