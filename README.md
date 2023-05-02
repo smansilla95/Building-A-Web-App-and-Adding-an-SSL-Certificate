@@ -8,9 +8,9 @@ Project consisted of setting up a domain through GoDaddy and then creating a web
 
 <h2>Utilities and Environments Used</h2>
 
-- <b>Microsoft Azure Cloud Services</b>
-- <b>Terminal</b>
-- <b>GoDaddy</b>
+- Microsoft Azure Cloud Services
+- Terminal
+- GoDaddy
 
 <h2>Program walk-through:</h2>
 
@@ -51,16 +51,16 @@ Set up Inbound Rules for the Network Security Group: <br/>
 
 After creating the security group, click on it to begin its configuration. Choose the Inbound security rules button and then click on the +Add button in order to add a new rule. The new rule should have these selections:
  
- - <b>Source: All, so that it can block all traffic sources.</b>
- - <b>Source Port Ranges: Wildcard(*), so that it can match all source ports.</b>
- - <b>Destination: Any, so that it will block all traffic associated with the security group.</b>
- - <b>Service: Custom.</b>
- - <b>Destination Port Ranges: Wildcard(*), so that it will block all destination ports.</b>
- - <b>Protocol: Any, so that all protocols used will be blocked.</b>
- - <b>Action: Deny, so that it will block any traffic that matches this rule.</b>
- - <b>Priority: The highest priority number (in this case 4,096).</b>
- - <b>Name: Default-Deny</b>
- - <b>Description: "Deny All Inbound Traffic"</b>
+ - Source: All, so that it can block all traffic sources.
+ - Source Port Ranges: Wildcard(*), so that it can match all source ports.
+ - Destination: Any, so that it will block all traffic associated with the security group.
+ - Service: Custom.
+ - Destination Port Ranges: Wildcard(*), so that it will block all destination ports.
+ - Protocol: Any, so that all protocols used will be blocked.
+ - Action: Deny, so that it will block any traffic that matches this rule.
+ - Priority: The highest priority number (in this case 4,096).
+ - Name: Default-Deny
+ - Description: "Deny All Inbound Traffic"
  
 <p align="center"><br/>
 <img src="https://i.imgur.com/ZoRz22c.png" height="60%" width="60%" alt="Set up Inbound Rules for the Network Security Group"/>
@@ -76,26 +76,26 @@ Begin by creating an SSH key pair using Terminal. Run the command ssh-keygen and
 <p align="left">
 Basics: <br/>
  
- - <b>Resource Group: The same as the one used for Red Team, in this case Red-Team.</b>
- - <b>Virtual Machine Name: This VM will be called Jump Box Provisioner.</b>
- - <b>Region: Try to match the VM region to the one used for the resource and security groups (in this case Central US), but if it is unavailable, then create a new resource and security group that will match the one used to create the VM.</b>
- - <b>Availability Options: This VM will continue to use the default settings for availability.</b>
- - <b>Image: The Ubuntu Server 18.04 option will be used for this VM.</b>
- - <b>Size: This VM will use Standard-B1s, 1 CPU, and 1 RAM.</b>
- - <b>SSH: The authentication type will be an SSH Public Key, the username will be RedAdmin, and in the "SSH Public Key" field, paste the SSH key that was created before and copied to the clipboard.</b>
- - <b>Public Inbound Ports: Leave the default setting provided, since it will be overwritten by choosing the security group created earlier.</b>
- - <b>Select Inbound Ports: Like the previous selection, leave the default setting, as it will be overwritten by the security group rules.</b>
+ - Resource Group: The same as the one used for Red Team, in this case Red-Team.
+ - Virtual Machine Name: This VM will be called Jump Box Provisioner.
+ - Region: Try to match the VM region to the one used for the resource and security groups (in this case Central US), but if it is unavailable, then create a new resource and security group that will match the one used to create the VM.
+ - Availability Options: This VM will continue to use the default settings for availability.
+ - Image: The Ubuntu Server 18.04 option will be used for this VM.
+ - Size: This VM will use Standard-B1s, 1 CPU, and 1 RAM.
+ - SSH: The authentication type will be an SSH Public Key, the username will be RedAdmin, and in the "SSH Public Key" field, paste the SSH key that was created before and copied to the clipboard.
+ - Public Inbound Ports: Leave the default setting provided, since it will be overwritten by choosing the security group created earlier.
+ - Select Inbound Ports: Like the previous selection, leave the default setting, as it will be overwritten by the security group rules.
 
 <p align="left">
 Networking: <br/>
  
- - <b>Virtual Network: The VNet created for Red Team, in this case RedNet.</b>
- - <b>Subnet: The subnet that was created earlier, RedNetBase, will be used here.</b>
- - <b>Public IP: The default setting for this selection will be used.</b>
- - <b>NIC Network Security Group: The Advanced option will be used here, since it will allow for a specification of a custom security group.</b>
- - <b>Configure Network Security Group: RedTeamSG, which was created earlier, will be used here.</b>
- - <b>Accelerated Networking: Select "off" for this setting.</b>
- - <b>Load Balancing: Click "No" for this setting, which should be the default.</b>
+ - Virtual Network: The VNet created for Red Team, in this case RedNet.
+ - Subnet: The subnet that was created earlier, RedNetBase, will be used here.
+ - Public IP: The default setting for this selection will be used.
+ - NIC Network Security Group: The Advanced option will be used here, since it will allow for a specification of a custom security group.
+ - Configure Network Security Group: RedTeamSG, which was created earlier, will be used here.
+ - Accelerated Networking: Select "off" for this setting.
+ - Load Balancing: Click "No" for this setting, which should be the default.
  
 <p align="center"><br/>
 <img src="https://i.imgur.com/GmKGnAB.png" height="60%" width="60%" alt="Setting Up a Jumpbox Virtual Machine"/>
@@ -111,62 +111,115 @@ Two VMs will need to be created for web access in the network. After going to th
 <p align="left">
 Basics: <br/>
  
- - <b>Resource Group: The same as the one used for Red Team, in this case Red-Team.</b>
- - <b>Virtual Machine Name: These VMS will be called Web-1 and Web-2.</b>
- - <b>Region: Try to match the VM region to the one used for the resource and security groups (in this case Central US), but if it is unavailable, then create a new resource and security group that will match the one used to create the two VMs.</b>
- - <b>Availability Options: Select "Availabilty Set" and then choose "Create New". It will be called RedTeamAS and have 2 Fault Domains and 5 Update Domains. After creating it for the first web VM, make sure to choose the same availability set for the second web VM.</b>
- - <b>Image: The Ubuntu Server 18.04 option will be used for these VMs.</b>
- - <b>Size: These VMs will use Standard-B1s, 1 CPU, and 2 RAM.</b>
- - <b>SSH: The authentication type will be an SSH Public Key, the username will be RedAdmin, and in the "SSH Public Key" field, paste the SSH key that was created before and copied to the clipboard when creating the Jumpbox VM.</b>
- - <b>Public Inbound Ports: Leave the default setting provided, since it will be overwritten by choosing the security group created earlier.</b>
- - <b>Select Inbound Ports: Like the previous selection, leave the default setting, as it will be overwritten by the security group rules.</b>
+ - Resource Group: The same as the one used for Red Team, in this case Red-Team.
+ - Virtual Machine Name: These VMS will be called Web-1 and Web-2.
+ - Region: Try to match the VM region to the one used for the resource and security groups (in this case Central US), but if it is unavailable, then create a new resource and security group that will match the one used to create the two VMs.
+ - Availability Options: Select "Availabilty Set" and then choose "Create New". It will be called RedTeamAS and have 2 Fault Domains and 5 Update Domains. After creating it for the first web VM, make sure to choose the same availability set for the second web VM.
+ - Image: The Ubuntu Server 18.04 option will be used for these VMs.
+ - Size: These VMs will use Standard-B1s, 1 CPU, and 2 RAM.
+ - SSH: The authentication type will be an SSH Public Key, the username will be RedAdmin, and in the "SSH Public Key" field, paste the SSH key that was created before and copied to the clipboard when creating the Jumpbox VM.
+ - Public Inbound Ports: Leave the default setting provided, since it will be overwritten by choosing the security group created earlier.
+ - Select Inbound Ports: Like the previous selection, leave the default setting, as it will be overwritten by the security group rules.
  
 <p align="left">
 Networking: <br/>
  
- - <b>Virtual Network: The VNet created for Red Team, in this case RedNet.</b>
- - <b>Subnet: The subnet that was created earlier, RedNetBase, will be used here.</b>
- - <b>Public IP: Choose None, as these web VMs should not have a public IP address.</b>
- - <b>NIC Network Security Group: The Advanced option will be used here, since it will allow for a specification of a custom security group.</b>
- - <b>Configure Network Security Group: RedTeamSG, which was created earlier, will be used here.</b>
- - <b>Accelerated Networking: Select "off" for this setting.</b>
- - <b>Load Balancing: Click "No" for this setting, which should be the default.</b>
+ - Virtual Network: The VNet created for Red Team, in this case RedNet.
+ - Subnet: The subnet that was created earlier, RedNetBase, will be used here.
+ - Public IP: Choose None, as these web VMs should not have a public IP address.
+ - NIC Network Security Group: The Advanced option will be used here, since it will allow for a specification of a custom security group.
+ - Configure Network Security Group: RedTeamSG, which was created earlier, will be used here.
+ - Accelerated Networking: Select "off" for this setting.
+ - Load Balancing: Click "No" for this setting, which should be the default.
  
 <p align="center"><br/>
-<img src="https://i.imgur.com/pg3xMZ1.png" height="60%" width="60%" alt="Setting Up a Jumpbox Virtual Machine"/>
+<img src="https://i.imgur.com/pg3xMZ1.png" height="60%" width="60%" alt="Setting Up Two Web-Access Virtual Machines"/>
 
 <p align="center"><br/>
-<img src="https://i.imgur.com/8yYLVMI.png" height="60%" width="60%" alt="Setting Up a Jumpbox Virtual Machine"/>
+<img src="https://i.imgur.com/8yYLVMI.png" height="60%" width="60%" alt="Setting Up Two Web-Access Virtual Machines"/>
  
 <p align="center"><br/>
-<img src="https://i.imgur.com/HhOP0p8.png" height="60%" width="60%" alt="Setting Up a Jumpbox Virtual Machine"/>
+<img src="https://i.imgur.com/HhOP0p8.png" height="60%" width="60%" alt="Setting Up Two Web-Access Virtual Machines"/>
 
 <p align="center">
 Configuring Jumpbox Administration: <br/>
 
 In order to SSH into the jumpbox virtual machine, a rule needs to created that allows connections only from your current IP address and no other IP addresses. This is to ensure the security of the web application while also being able to control it via SSH connection. This will be achieved by first going to whatismyip.org or any other IP address identifier and taking note of the IPv4 address of the network that is currently being used. Return to Azure to create a new security rule. This will be done by finding the security group that is listed under the resource group that was used throughout the activity. From there, choose Inbound Security rules and click on +Add to begin creating the rule, which will have these selections:
  
- - <b>Source: IP Addresses, which will open a new selection beneath it to identify the desired IP address.</b>
- - <b>Source IP Addresses/CIDR Ranges: Use the IP address that was identified earlier, in this case 209.58.129.97.</b>
- - <b>Source Port Ranges: Wildcard(*), so that it can match all source ports.</b>
- - <b>Destination: IP Addresses, so that the specific IP address of the Jumpbox VM can be used.</b>
- - <b>Destination IP Addresses/CIDR Ranges: The internal IP of the Jumpbox VM will be used here, which in this case is 10.0.0.4.</b>
- - <b>Service: SSH</b>
- - <b>Destination Port Ranges: 22</b>
- - <b>Protocol: TCP</b>
- - <b>Action: Allow</b>
- - <b>Priority: The highest priority number, but lower than the rule to deny all traffic.</b>
- - <b>Name: SSH</b>
- - <b>Description: "Allow SSH from specific IP address."</b>
+ - Source: IP Addresses, which will open a new selection beneath it to identify the desired IP address.
+ - Source IP Addresses/CIDR Ranges: Use the IP address that was identified earlier, in this case 209.58.129.97.
+ - Source Port Ranges: Wildcard(*), so that it can match all source ports.
+ - Destination: IP Addresses, so that the specific IP address of the Jumpbox VM can be used.
+ - Destination IP Addresses/CIDR Ranges: The internal IP of the Jumpbox VM will be used here, which in this case is 10.0.0.4.
+ - Service: SSH
+ - Destination Port Ranges: 22
+ - Protocol: TCP
+ - Action: Allow
+ - Priority: The highest priority number, but lower than the rule to deny all traffic.
+ - Name: SSH
+ - Description: "Allow SSH from specific IP address."
  
 <p align="center"><br/>
-<img src="https://i.imgur.com/5jPJbir.png" height="60%" width="60%" alt="Setting Up a Jumpbox Virtual Machine"/>
+<img src="https://i.imgur.com/5jPJbir.png" height="60%" width="60%" alt="Configuring Jumpbox Administration"/>
  
-After the rule is set up, use the command line to SSH into the Jumpbox VM. This is done by typing #ssh sysadmin@10.0.0.4#. Once the SSH connection is achieved, check sudo permissions by running the command #sudo -l#. This is used to see that the admin has full permissions without needing a password.
+After the rule is set up, use the command line to SSH into the Jumpbox VM. This is done by typing <i>ssh sysadmin@10.0.0.4</i>. Once the SSH connection is achieved, check sudo permissions by running the command <i>sudo -l</i>. This is used to see that the admin has full permissions without needing a password.
  
 <p align="center">
 Setting Up the Docker Container: <br/>
 
+To install docker.io on the Jumpbox VM, begin by running <i>sudo apt update</i>, followed by <i>sudo apt install docker.io</i>.
+ 
+<p align="center"><br/>
+<img src="https://i.imgur.com/Cx53Bnh.png" height="60%" width="60%" alt="Setting Up the Docker Container"/>
+ 
+To double-check that the docker service is running, type the command <i>sudo systemctl status docker</i> into the command line. If the Docker service is not running automatically, then run the command <i>sudo systemctl start docker</i>.
+ 
+<p align="center"><br/>
+<img src="https://i.imgur.com/sfCpWs8.png" height="60%" width="60%" alt="Setting Up the Docker Container"/>
+ 
+After verifying that the Docker is working properly, run the command <i>sudo docker pull cyberxsecurity/ansible</i>. Optionally, run the command <i>sudo su</i> to switch to the root user in order to avoid having to type <i>sudo</i> before every command.
+
+<p align="center"><br/>
+<img src="https://i.imgur.com/tb1Bxp3.png" height="60%" width="60%" alt="Setting Up the Docker Container"/>
+ 
+In order to launch the Ansible container and connect to it, run these commands: <i>docker run -ti cyberxsecurity/ansible:latest bash</i>. This will start the container, and after it does run the command <i>exit</i> to quit.
+
+<p align="center"><br/>
+<img src="https://i.imgur.com/jimWOa5.png" height="60%" width="60%" alt="Setting Up the Docker Container"/>
+ 
+The next step will be to create a new security group rule that will allow the Jumpbox VM to have full access to the VNet. The firt step will be to find the private IP address of the Jumpbox VM, which can be found in the overview tab of the VM.
+ 
+<p align="center"><br/>
+<img src="https://i.imgur.com/SH7hVT6.png" height="60%" width="60%" alt="Setting Up the Docker Container"/>
+ 
+After taking note of the private IP address for the Jumpbox VM, create a new inbound rule that allows SSH connections in the security group settings. This rule will have these settings:
+
+ - Source: IP Addresses, which will open a new selection beneath it to identify the desired IP address.
+ - Source IP Addresses/CIDR Ranges: Use the private IP address of the Jumpbox VM, in this case 10.0.0.4.
+ - Source Port Ranges: Wildcard(*), so that it can match all source ports.
+ - Destination: VirtualNetwork
+ - Service: SSH
+ - Destination Port Ranges: 22
+ - Protocol: TCP
+ - Action: Allow
+ - Priority: The highest priority number, but lower than previous established rules.
+ - Name: Jump-Box-Access
+ - Description: "SSH Access from Jump Box"
+ 
+<p align="center"><br/>
+<img src="https://i.imgur.com/kXm7KzJ.png" height="60%" width="60%" alt="Setting Up the Docker Container"/>
+
+After the security rule is created, look at all the rules for the Red Team Security Group to verify that all rules have been created. These include: JumpBox-Access, SSH, Default-Deny, AllowVNetInBound, AllowAzureLoadBalancerInBound, DenyAllInBound. 
+
+<p align="center"><br/>
+<img src="https://i.imgur.com/iPMjBMZ.png" height="60%" width="60%" alt="Setting Up the Docker Container"/>
+ 
+<p align="center">
+Setting Up the Provisioner: <br/>
+
+A new VM from the Azure portal will be launched, which can only be accessed by using a new SSH key from the container running in the Jumpbox VM. Continuing from the last step, use the command line to connect to the Ansible container and then create a new SSH key and copy the public key. This will be done by running the command <i>docker images</i> to view the image. Run the command <i>docker run -it cyberxsecurity/ansible /bin/bash</i> to start and connect to the container. To create a new SSH key, run the command <i>ssh-keygen</i>. To view all generated SSH keys, run the command <i>ls .ssh/</i>. To display the public key string, run the command <i>cat .ssh/id_rsa.pub</i>, and then copy the output. At this point, return to the Azure portal and navigate to one of the Web VM details page. There, reset the VM's password with the newly generated public key from the Ansible container, which should still be copied into the clipboard. Still in the details page of the Web VM, take note of the VM's internal IP address. 
+
+Once the VM launches, test the connection by 
  
 </p>
 
