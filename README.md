@@ -239,6 +239,25 @@ Test the Ansible connection by using the command <i>ansible_python_interpreter=/
 <p align="center">
 Setting Up Ansible Playbooks: <br/>
 
+Connect to the Jumpbox VM and from there connect to the Ansible container. If the container was stopped or exited, it can be found again by using the command <i>docker container list -a</i>. The name of the container is randomly generated and will be different for every user, so take note of it so that the same container is used every time. In this case, the container name is hardcore_brown. Start the cotainer by running the command <i>docker start hardcore_brown</i>. To get a shell in the container, use the command <i>docker attach hardcore_brown</i>. 
+ 
+<p align="center"><br/>
+<img src="https://i.imgur.com/3nXgGpo.png" height="60%" width="60%" alt="Setting Up Ansible Playbooks"/>
+<p align="center"><br/>
+<img src="https://i.imgur.com/q1Lii9n.png" height="60%" width="60%" alt="Setting Up Ansible Playbooks"/>
+<p align="center"><br/>
+<img src="https://i.imgur.com/CGQv1Fq.png" height="60%" width="60%" alt="Setting Up Ansible Playbooks"/>
+ 
+To create a YAML playbook file that will be used for configurations, use the command <i>nano /etc/ansible/pentest.yml</i>. Edit the file to match these configurations:
+<p align="center"><br/>
+<img src="https://i.imgur.com/eelmkzR.png" height="60%" width="60%" alt="Setting Up Ansible Playbooks"/>
+<p align="center"><br/>
+<img src="https://i.imgur.com/EcmLUwF.png" height="60%" width="60%" alt="Setting Up Ansible Playbooks"/>
+<p align="center"><br/>
+<img src="https://i.imgur.com/Pkzb8hg.png" height="60%" width="60%" alt="Setting Up Ansible Playbooks"/>
+<p align="center"><br/>
+<img src="https://i.imgur.com/lxvvyuQ.png" height="60%" width="60%" alt="Setting Up Ansible Playbooks"/>
+
 
 
 </p>
