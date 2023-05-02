@@ -219,8 +219,28 @@ Setting Up the Provisioner: <br/>
 
 A new VM from the Azure portal will be launched, which can only be accessed by using a new SSH key from the container running in the Jumpbox VM. Continuing from the last step, use the command line to connect to the Ansible container and then create a new SSH key and copy the public key. This will be done by running the command <i>docker images</i> to view the image. Run the command <i>docker run -it cyberxsecurity/ansible /bin/bash</i> to start and connect to the container. To create a new SSH key, run the command <i>ssh-keygen</i>. To view all generated SSH keys, run the command <i>ls .ssh/</i>. To display the public key string, run the command <i>cat .ssh/id_rsa.pub</i>, and then copy the output. At this point, return to the Azure portal and navigate to one of the Web VM details page. There, reset the VM's password with the newly generated public key from the Ansible container, which should still be copied into the clipboard. Still in the details page of the Web VM, take note of the VM's internal IP address. 
 
-Once the VM launches, test the connection by 
+Once the VM launches, test the connection by using SSH from the Jumpbox VM's Ansible container. This will be done by running the command <i>ping 10.0.0.6</i>, which is Web 1 VM's internal IP address. If the ping is successful, SSH into the container by running <i>ssh sysadmin@10.0.0.6</i>. After the SSH connection is successful, run the command <i>exit</i> to shut down the session. Do the same for Web 2 VM.
  
+To find the Ansible config and hosts files, run the command <i>ls /etc/ansible</i>, which should reveal three files: ansible.cfg, hosts, and roles. To add Web 1 and 2 VM's interal IP addresses to the Ansible hosts file, begin by editing the file using the command <i>nano /etc/ansible/hosts</i>. From there, uncomment the [webservers] header line by deleting the # and then add Web 1 and 2 VM's internal IP addresses under the same header. Beside both IP addresses that have been edited into the file, add the line <i>ansible_python_interpreter=/usr/bin/python3</i>.
+ 
+<p align="center"><br/>
+<img src="https://i.imgur.com/iNN8UZt.png" height="60%" width="60%" alt="Setting Up the Provisioner"/>
+ 
+Edit the Ansible config file so that it will use the admin account or SSH connections by using the command <i>nano /etc/ansible/ansible.cfg</i>. Scroll down to the <i>remote_user</i> option and uncomment it by deleting the # next to it. Once uncommented, replace <i>root</i> with <i>sysadmin</i>, which is the admin username for both Web 1 and 2 VMs. 
+ 
+<p align="center"><br/>
+<img src="https://i.imgur.com/HgvKGms.png" height="60%" width="60%" alt="Setting Up the Provisioner"/>
+ 
+Test the Ansible connection by using the command <i>ansible_python_interpreter=/usr/bin/python3</i>.
+ 
+<p align="center"><br/>
+<img src="https://i.imgur.com/DajYaSi.png" height="60%" width="60%" alt="Setting Up the Provisioner"/>
+ 
+<p align="center">
+Setting Up Ansible Playbooks: <br/>
+
+
+
 </p>
 
 <!--
