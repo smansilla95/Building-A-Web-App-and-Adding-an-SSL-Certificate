@@ -126,13 +126,47 @@ Networking: <br/>
  
  - <b>Virtual Network: The VNet created for Red Team, in this case RedNet.</b>
  - <b>Subnet: The subnet that was created earlier, RedNetBase, will be used here.</b>
- - <b>Public IP: The default setting for this selection will be used.</b>
+ - <b>Public IP: Choose None, as these web VMs should not have a public IP address.</b>
  - <b>NIC Network Security Group: The Advanced option will be used here, since it will allow for a specification of a custom security group.</b>
  - <b>Configure Network Security Group: RedTeamSG, which was created earlier, will be used here.</b>
  - <b>Accelerated Networking: Select "off" for this setting.</b>
  - <b>Load Balancing: Click "No" for this setting, which should be the default.</b>
  
+<p align="center"><br/>
+<img src="https://i.imgur.com/pg3xMZ1.png" height="60%" width="60%" alt="Setting Up a Jumpbox Virtual Machine"/>
+
+<p align="center"><br/>
+<img src="https://i.imgur.com/8yYLVMI.png" height="60%" width="60%" alt="Setting Up a Jumpbox Virtual Machine"/>
  
+<p align="center"><br/>
+<img src="https://i.imgur.com/HhOP0p8.png" height="60%" width="60%" alt="Setting Up a Jumpbox Virtual Machine"/>
+
+<p align="center">
+Configuring Jumpbox Administration: <br/>
+
+In order to SSH into the jumpbox virtual machine, a rule needs to created that allows connections only from your current IP address and no other IP addresses. This is to ensure the security of the web application while also being able to control it via SSH connection. This will be achieved by first going to whatismyip.org or any other IP address identifier and taking note of the IPv4 address of the network that is currently being used. Return to Azure to create a new security rule. This will be done by finding the security group that is listed under the resource group that was used throughout the activity. From there, choose Inbound Security rules and click on +Add to begin creating the rule, which will have these selections:
+ 
+ - <b>Source: IP Addresses, which will open a new selection beneath it to identify the desired IP address.</b>
+ - <b>Source IP Addresses/CIDR Ranges: Use the IP address that was identified earlier, in this case 209.58.129.97.</b>
+ - <b>Source Port Ranges: Wildcard(*), so that it can match all source ports.</b>
+ - <b>Destination: IP Addresses, so that the specific IP address of the Jumpbox VM can be used.</b>
+ - <b>Destination IP Addresses/CIDR Ranges: The internal IP of the Jumpbox VM will be used here, which in this case is 10.0.0.4.</b>
+ - <b>Service: SSH</b>
+ - <b>Destination Port Ranges: 22</b>
+ - <b>Protocol: TCP</b>
+ - <b>Action: Allow</b>
+ - <b>Priority: The highest priority number, but lower than the rule to deny all traffic.</b>
+ - <b>Name: SSH</b>
+ - <b>Description: "Allow SSH from specific IP address."</b>
+ 
+<p align="center"><br/>
+<img src="https://i.imgur.com/5jPJbir.png" height="60%" width="60%" alt="Setting Up a Jumpbox Virtual Machine"/>
+ 
+After the rule is set up, use the command line to SSH into the Jumpbox VM. This is done by typing #ssh sysadmin@10.0.0.4#. Once the SSH connection is achieved, check sudo permissions by running the command #sudo -l#. This is used to see that the admin has full permissions without needing a password.
+ 
+<p align="center">
+Setting Up the Docker Container: <br/>
+
  
 </p>
 
