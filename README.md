@@ -249,15 +249,92 @@ Connect to the Jumpbox VM and from there connect to the Ansible container. If th
 <img src="https://i.imgur.com/CGQv1Fq.png" height="60%" width="60%" alt="Setting Up Ansible Playbooks"/>
  
 To create a YAML playbook file that will be used for configurations, use the command <i>nano /etc/ansible/pentest.yml</i>. Edit the file to match these configurations:
+ 
 <p align="center"><br/>
-<img src="https://i.imgur.com/eelmkzR.png" height="60%" width="60%" alt="Setting Up Ansible Playbooks"/>
-<p align="center"><br/>
-<img src="https://i.imgur.com/EcmLUwF.png" height="60%" width="60%" alt="Setting Up Ansible Playbooks"/>
-<p align="center"><br/>
-<img src="https://i.imgur.com/Pkzb8hg.png" height="60%" width="60%" alt="Setting Up Ansible Playbooks"/>
-<p align="center"><br/>
-<img src="https://i.imgur.com/lxvvyuQ.png" height="60%" width="60%" alt="Setting Up Ansible Playbooks"/>
+<img src="https://i.imgur.com/atSTnJ4.png" height="60%" width="60%" alt="Setting Up Ansible Playbooks"/>
 
+To run the playbook, use the command <i>ansible-playbook /etc/ansible/pentest.yml</i>. Once the playbook is running, test that the DVWA is running on the new VM by SSHing into it from the Ansible container. This is done by using the command <i>ssh sysadmin@10.0.0.6</i>.
+
+<p align="center"><br/>
+<img src="https://i.imgur.com/SZzuKuE.png" height="60%" width="60%" alt="Setting Up Ansible Playbooks"/>
+
+To test the connection, run the command <i>curl localhost/setup.php</i>. If everything is working correctly, there will be an HTML output from the DVWA container. 
+ 
+<p align="center">
+Setting Up the Load Balancer: <br/>
+ 
+A load balancer is necessary in this scenario so that it will distribute the traffic across the two Web VMs. To create a new load balancer and assign it a static IP address, begin by searching for "load balancer" on the homepage and then click +Create. It will have these configurations:
+
+ - Resource Group: RedTeamtest
+ - Name: Red-Team-LB
+ - Region: Select the same region used to create all other resources.
+ - Type: Public
+ - SKU: Basic
+ - Public IP Address: Create New
+ - Public IP Address Name: Red-Team-LB
+ - IP Address Assignment: Static
+ - Add a Public IPv6 Address: No
+
+<p align="center"><br/>
+<img src="https://i.imgur.com/JolnIbz.png" height="60%" width="60%" alt="Setting Up the Load Balancer"/>
+ 
+After creating the load balancer, add a health probe to it so that it will routinely check all VMs and make sure they are able to receive traffic. After navigating to the load balancer created before, go to the health probe section and configure it with these settings:
+ 
+ - Name: RedTeamProbe
+ - Protocol: TCP
+ - Port: 80
+ - Interval: 5
+ - Unhealthy Threshold: 2
+ 
+<p align="center"><br/>
+<img src="https://i.imgur.com/2mACa9F.png" height="60%" width="60%" alt="Setting Up the Load Balancer"/>
+
+After adding the health probe, it is necessary to add a backend pool and add Web 1 VM and Web 2 VM to it. It will have these settings:
+ 
+ - Name: RedTeamPool
+ - Associated To: Virtual Machines
+ - IP Version: IPv4
+ 
+<p align="center"><br/>
+<img src="https://i.imgur.com/9CdjJjc.png" height="60%" width="60%" alt="Setting Up the Load Balancer"/> 
+ 
+<p align="center">
+Configure NSG to Expose Port 80: <br/>
+ 
+Create a rule so that the load balancer will forward port 80 from it to the Red Team VNet. This rule will be created under the load balancer settings, and it will have these configurations:
+ 
+ - Name: PentestLBR
+ - IP Version: IPv4
+ - Frontend IP Address: Use the automatically generated option.
+ - Protocol: TCP
+ - Port: 80
+ - Backend Port: 80
+ - Backend Pool: RedTeam-Pool
+ - Health Probe: RedTeamProbe
+ - Session Persistence: Client IP and Protocol
+ - Idle Timeout: 4 Minutes
+ - Floating IP: Disabled
+ 
+<p align="center"><br/>
+<img src="https://i.imgur.com/mfo61UI.png" height="60%" width="60%" alt="Setting Up the Load Balancer"/> 
+ 
+Create a new rule for the security group that will allow port 80 traffic from the internet to the internal VNet. This rule will have these settings:
+ 
+ - Source: IP Addresses
+ - Source Port Ranges: *
+ - Destination: VirtualNetwork
+ - Destination Port Ranges: 80
+ - Protocol: Any
+ - Action: Allow
+ 
+<p align="center"><br/>
+<img src="https://i.imgur.com/AVZrbvx.png" height="60%" width="60%" alt="Setting Up the Load Balancer"/> 
+ 
+After creating the new security group rule, remove the one that blocks all traffic on the VNet (Default-Deny) so that traffic from the load balancer will be allowed through. At this point, verify that the DVWA app can be accessed through a browser on the internet. This can be done by going to a browser and typing in the front-end IP address of the load balancer, like this: <i>http://40.122.71.120/setup.php</i>
+
+<p align="center"><br/>
+<img src="https://i.imgur.com/utJoP5t.png" height="60%" width="60%" alt="Setting Up the Load Balancer"/> 
+ 
 
 
 </p>
